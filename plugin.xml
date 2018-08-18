@@ -83,9 +83,10 @@
 
         <source-file src="src/android/CordovaPlugin.java" target-dir="src/io/repro/cordova" />
         <source-file src="src/android/StandardEventPropertiesFactory.java" target-dir="src/io/repro/cordova" />
+        <source-file src="src/android/MyFirebaseInstanceIDService.java" target-dir="src/io/repro/cordova" />
         <resource-file src="src/android/repro-android-sdk.aar" target="libs/repro-android-sdk.aar" />
-
-        <framework src="com.google.android.gms:play-services-gcm:7.0.0" />
+        
+        <framework src="com.google.firebase:firebase-messaging:11.0.0" />
         <framework src="src/android/repro-android-sdk.gradle" custom="true" type="gradleReference" />
 
     </platform>

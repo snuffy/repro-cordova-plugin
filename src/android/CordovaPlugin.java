@@ -21,6 +21,10 @@ import org.json.JSONObject;
 import io.repro.android.Repro;
 import io.repro.android.CordovaBridge;
 
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.FirebaseInstanceIdService;
+
 /**
  * Created by nekoe on 1/15/16.
  * Copyright (c) 2016 Repro Inc. All rights reserved.
@@ -623,6 +627,9 @@ public final class CordovaPlugin extends org.apache.cordova.CordovaPlugin {
 
     private boolean setPushDeviceToken(final CordovaArgs args, final CallbackContext callbackContext) {
         // do nothing
+
+        String token = FirebaseInstanceId.getInstance().getToken();
+        Repro.setPushRegistrationID(token);
         return true;
     }
 
