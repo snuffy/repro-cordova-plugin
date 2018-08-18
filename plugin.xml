@@ -59,6 +59,28 @@
             <service android:name="io.repro.android.ReproService" />
         </config-file>
 
+        <config-file target="AndroidManifest.xml" parent="/manifest/application">
+            <receiver android:exported="true" android:name="io.repro.android.GCMReceiver" android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
+                <category android:name="${applicationId}"/>
+            </intent-filter>
+            </receiver>
+        </config-file>
+        
+        <config-file target="AndroidManifest.xml" parent="/manifest/application">
+            <service android:name=".MyFirebaseInstanceIdService">
+                <intent-filter>
+                    <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+                </intent-filter>
+            </service>
+        </config-file>
+        
+        <config-file target="AndroidManifest.xml" parent="/manifest/application">
+            <meta-data android:name="io.repro.android.PushNotification.ChannelId" android:value="${applicationId}"/>
+            <meta-data android:name="io.repro.android.PushNotification.ChannelName" android:value="${applicationId}"/>
+        </config-file>
+
         <source-file src="src/android/CordovaPlugin.java" target-dir="src/io/repro/cordova" />
         <source-file src="src/android/StandardEventPropertiesFactory.java" target-dir="src/io/repro/cordova" />
         <resource-file src="src/android/repro-android-sdk.aar" target="libs/repro-android-sdk.aar" />
