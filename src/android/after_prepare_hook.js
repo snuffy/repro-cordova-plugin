@@ -6,7 +6,7 @@ module.exports = function(context) {
   var path = require('path');
   var xml2js = require('xml2js');
   var parser = new xml2js.Parser();
-  var MANIFEST_FILE_PATH = path.join(context.opts.projectRoot, 'platforms/android/AndroidManifest.xml');
+  var MANIFEST_FILE_PATH = path.join(context.opts.projectRoot, 'platforms/android/app/src/main/AndroidManifest.xml');
 
   var data = fs.readFileSync(MANIFEST_FILE_PATH, 'utf8');
   parser.parseString(data, function (err, result) {
