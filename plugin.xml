@@ -2,7 +2,7 @@
 
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
     id="cordova-plugin-repro"
-    version="3.7.0">
+    version="4.2.0">
     <name>Repro</name>
     <description>Repro Cordova Plugin</description>
     <license>Commercial</license>
@@ -14,6 +14,9 @@
 
     <!-- ios -->
     <platform name="ios">
+        <preference name="ENABLE_IOS_PUSH" default="true" />
+        <hook type="after_prepare" src="src/ios/after_prepare_hook.js" />
+
         <config-file target="config.xml" parent="/*">
             <feature name="Repro">
                 <param name="ios-package" value="CDVRepro"/>
@@ -24,6 +27,9 @@
         <source-file src="src/ios/CDVRepro.m" />
         <header-file src="src/ios/CDVReproEventPropertiesFactory.h" />
         <source-file src="src/ios/CDVReproEventPropertiesFactory.m" />
+        <header-file src="src/ios/AppDelegate+CDVReproNotification.h" />
+        <source-file src="src/ios/AppDelegate+CDVReproNotification.m" />
+        <header-file src="src/ios/CDVReproEnableSwizzling.h" />
 
         <framework src="AVFoundation.framework" />
         <framework src="CoreMedia.framework" />
@@ -41,6 +47,8 @@
 
     <!-- android -->
     <platform name="android">
+        <preference name="FIREBASE_CORE_VERSION" default="16.0.4" />
+        <preference name="FIREBASE_MESSAGING_VERSION" default="17.3.4" />
         <hook type="before_plugin_install" src="src/android/before_plugin_install_hook.js" />
         <hook type="after_prepare" src="src/android/after_prepare_hook.js" />
 
@@ -59,34 +67,12 @@
             <service android:name="io.repro.android.ReproService" />
         </config-file>
 
-        <config-file target="AndroidManifest.xml" parent="/manifest/application">
-            <receiver android:exported="true" android:name="io.repro.android.GCMReceiver" android:permission="com.google.android.c2dm.permission.SEND">
-            <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
-                <category android:name="${applicationId}"/>
-            </intent-filter>
-            </receiver>
-        </config-file>
-        
-        <config-file target="AndroidManifest.xml" parent="/manifest/application">
-            <service android:name=".MyFirebaseInstanceIdService">
-                <intent-filter>
-                    <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
-                </intent-filter>
-            </service>
-        </config-file>
-        
-        <config-file target="AndroidManifest.xml" parent="/manifest/application">
-            <meta-data android:name="io.repro.android.PushNotification.ChannelId" android:value="${applicationId}"/>
-            <meta-data android:name="io.repro.android.PushNotification.ChannelName" android:value="${applicationId}"/>
-        </config-file>
-
         <source-file src="src/android/CordovaPlugin.java" target-dir="src/io/repro/cordova" />
         <source-file src="src/android/StandardEventPropertiesFactory.java" target-dir="src/io/repro/cordova" />
-        <source-file src="src/android/MyFirebaseInstanceIDService.java" target-dir="src/io/repro/cordova" />
-        <resource-file src="src/android/repro-android-sdk.aar" target="libs/repro-android-sdk.aar" />
-        
-        <framework src="com.google.firebase:firebase-messaging:11.0.0" />
+        <resource-file src="src/android/repro-android-sdk.aar" target="libs/repro-android-sdk.aar"/>
+
+        <framework src="com.google.firebase:firebase-core:$FIREBASE_CORE_VERSION" />
+        <framework src="com.google.firebase:firebase-messaging:$FIREBASE_MESSAGING_VERSION" />
         <framework src="src/android/repro-android-sdk.gradle" custom="true" type="gradleReference" />
 
     </platform>

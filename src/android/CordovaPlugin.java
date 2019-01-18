@@ -21,10 +21,6 @@ import org.json.JSONObject;
 import io.repro.android.Repro;
 import io.repro.android.CordovaBridge;
 
-import com.google.firebase.messaging.FirebaseMessaging;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.FirebaseInstanceIdService;
-
 /**
  * Created by nekoe on 1/15/16.
  * Copyright (c) 2016 Repro Inc. All rights reserved.
@@ -122,8 +118,9 @@ public final class CordovaPlugin extends org.apache.cordova.CordovaPlugin {
         else if ("enablePushNotification".equals(action)) {
             return enablePushNotification(args, callbackContext);
         }
-        else if ("setPushDeviceToken".equals(action)) {
-            return setPushDeviceToken(args, callbackContext);
+        else if ("enablePushNotificationForIOS".equals(action)) {
+            // do nothing
+            return true;
         }
         else if ("getUserID".equals(action)) {
             return getUserID(args, callbackContext);
@@ -613,23 +610,13 @@ public final class CordovaPlugin extends org.apache.cordova.CordovaPlugin {
     }
 
     private boolean enablePushNotification(final CordovaArgs args, final CallbackContext callbackContext) throws JSONException {
-        final String senderId = args.getString(0);
-
         callAPI(new API(callbackContext) {
             Void api() {
-                Repro.enablePushNotification(senderId);
+                Repro.enablePushNotification();
                 return null;
             }
         });
 
-        return true;
-    }
-
-    private boolean setPushDeviceToken(final CordovaArgs args, final CallbackContext callbackContext) {
-        // do nothing
-
-        String token = FirebaseInstanceId.getInstance().getToken();
-        Repro.setPushRegistrationID(token);
         return true;
     }
 
