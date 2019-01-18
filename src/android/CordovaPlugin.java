@@ -142,6 +142,7 @@ public final class CordovaPlugin extends org.apache.cordova.CordovaPlugin {
 
         callAPI(new API(callbackContext) {
             Void api() {
+                Repro.setup(cordova.getActivity().getApplication(), token);
                 CordovaBridge.startSession(token);
                 return null;
             }
